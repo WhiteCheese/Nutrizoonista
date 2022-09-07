@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Veterinarios</h1>
+
+<!-- Button trigger modal -->
+<button onclick="Editar(0)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="Editar(0)">
+    Nuevo Veterinario
+</button>
+
+<!--Contenedor-->
+<fieldset class="mb-4 mt-4">
+    <legend>Busqueda de veterinarios</legend>
+    <form id="frmBusqueda" method="post" class="mb-3">
+        <div class="row">
+
+            <div class="col-md-6">
+                <label>Nombre del veterinario</label>
+                <input type="text" class="form-control max-100 slcenb" name="nombre" />
+            </div>
+
+            <div class="col-md-6">
+                <label>Dni del veterinario</label>
+                <input type="text" class="form-control max-8 sn" name="dni" />
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label>Celular del veterinario</label>
+                <input type="text" class="form-control max-9 sn" name="celular" />
+            </div>
+        </div>
+    </form>
+
+    <button class="btn btn-primary" onclick="BuscarDatos()">Buscar</button>
+    <button class="btn btn-danger" onclick="LimpiarVeterinario()">Limpiar</button>
+
+</fieldset>
+
+<div id="divTabla">
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lbltitulo"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmGuardarVeterinario" method="post" class="mb-3">
+                    <div class="row">
+
+                        <div class="col-md-6" readonly>
+                            <label>Id del veterinario</label>
+                            <input type="text" class="form-control" name="idveterinario" readonly/>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Nombre del veterinario</label>
+                            <input type="text" class="form-control ob max-100 slcenb" name="nombre" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <label>Dni del veterinario</label>
+                            <input type="text" class="form-control ob max-8 sn" name="dni" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Celular del veterinario</label>
+                            <input type="text" class="form-control ob max-9 sn" name="celular" />
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCerrarModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarDatos()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/sweatalert.js"></script>
+<script src="~/js/bootstrap.js"></script>
+<script src="~/js/generic.js"></script>
+<script src="~/js/veterinario.js"></script>

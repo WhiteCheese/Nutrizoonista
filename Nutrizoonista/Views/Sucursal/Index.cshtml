@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Listado Sucursal</h1>
+
+<div class="input-group mb-3">
+    <input id="txtNombreBusqueda" type="text" class="form-control" placeholder="Ingrese nombre sucursal">
+    <button class="btn btn-primary" type="button" id="button-addon2" onclick="BuscarSucursal()">Buscar</button>
+    <button class="btn btn-danger" type="button" id="button-addon2" onclick="LimpiarListaSucursal()">Limpiar</button>
+</div>
+
+<div id="divTabla">
+</div>
+
+<script src="~/js/generic.js"></script>
+<script src="~/js/sucursal.js"></script>

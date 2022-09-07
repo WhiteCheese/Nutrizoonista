@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Mascotas</h1>
+
+<!-- Button trigger modal -->
+<button onclick="Editar(0)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Nueva Mascota
+</button>
+
+<div class="input-group mt-3 mb-3">
+    <input id="txtNombreBusqueda" type="text" class="form-control" placeholder="Ingrese nombre de la mascota" onkeyup="filtrarMascota()" />
+</div>
+
+<div id="divTabla">
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lbltitulo"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmGuardarMascota" method="post" class="mb-3">
+                    
+                    <div class="row" style="display:none">
+                        <div class="col-md-6">
+                            <label>Id Mascota</label>
+                            <input type="text" class="form-control" name="idmascota" readonly />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" name="nombremascota" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Género</label>
+                            <select id="cboGeneroMascota" class="form-control" name="idgeneromascota">
+                                <option value="-1">--Seleccione--</option>
+                                <option value="1">Hembra</option>
+                                <option value="2">Macho</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Edad</label>
+                            <input type="text" class="form-control" name="edadmascota" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Especie</label>
+                            <select id="cboEspecieMascota" class="form-control" name="idespeciemascota">
+                                <option value="-1">--Seleccione--</option>
+                                <option value="1">Perro</option>
+                                <option value="2">Gato</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Raza</label>
+                            <input type="text" class="form-control" name="razamascota" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Esterilizado (a)</label>
+                            <select id="cboEsterilizadoMascota" class="form-control" name="idesterilizadomascota">
+                                <option value="-1">--Seleccione--</option>
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Actividad diaria</label>
+                            <input type="text" class="form-control" name="actividaddiaria" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Nivel de actividad</label>
+                            <select id="cboNivelActividadMascota" class="form-control" name="idnivelactividadmascota">
+                                <option value="-1">--Seleccione--</option>
+                                <option value="1">Baja</option>
+                                <option value="2">Media</option>
+                                <option value="3">Alta</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Peso</label>
+                            <input type="text" class="form-control" name="pesomascota" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Tipo de alimento</label>
+                            <input type="text" class="form-control" name="tipoalimento" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Marca alimento</label>
+                            <input type="text" class="form-control" name="marcaalimento" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Cantidad de comida diaria</label>
+                            <input type="text" class="form-control" name="cantidadcomida" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Enfermedades</label>
+                            <textarea class="form-control" name="enfermedades"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>¿Toma medicamentos?</label>
+                            <select id="cboTomaMedicamentosMascota" class="form-control" name="idtomamedicamentosmascota">
+                                <option value="-1">--Seleccione--</option>
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Medicamentos</label>
+                            <textarea class="form-control" name="medicamentos"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCerrarModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarDatos()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/sweatalert.js"></script>
+<script src="~/js/bootstrap.js"></script>
+<script src="~/js/generic.js"></script>
+<script src="~/js/mascota.js"></script>
+
