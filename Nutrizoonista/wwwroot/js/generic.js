@@ -129,6 +129,8 @@ function pintar(objConfiguracion) {
         objConfiguracion.editar = false
     if (objConfiguracion.eliminar == undefined)
         objConfiguracion.eliminar = false
+    if (objConfiguracion.descargar == undefined)
+        objConfiguracion.descargar = false
     if (objConfiguracion.propiedadId == undefined)
         objConfiguracion.propiedadId = ""
     if (objConfiguracion.popup == undefined)
@@ -182,7 +184,7 @@ function generarTabla(res) {
             contenido += "<td>" + obj[propiedadActual] + "</td>";
         }
         //Una columna adicional(tbody)
-        if (objConfiguracionGlobal.editar == true || objConfiguracionGlobal.eliminar == true) {
+        if (objConfiguracionGlobal.editar == true ||  objConfiguracionGlobal.eliminar == true || objConfiguracionGlobal.descargar == true) {
             var propiedadId = objConfiguracionGlobal.propiedadId;
             contenido += "<td>";
             if (objConfiguracionGlobal.editar == true) {
@@ -197,6 +199,12 @@ function generarTabla(res) {
             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
             </svg></i>`
             }
+            if (objConfiguracionGlobal.descargar == true) {
+                contenido += `<a onclick="Descargar(${obj[propiedadId]})" class="btn btn-success" href="http://localhost:5008/Cita/DescargarPDF" ><svg xmlns = "http://www.w3.org/2000/svg" width = "16" height = "16" fill = "currentColor" class="bi bi-file-earmark-arrow-down-fill" viewBox = "0 0 16 16">
+            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0z" />
+            </svg></a>`       
+            }
+
             contenido += "</td>";
         }
     }
@@ -261,9 +269,16 @@ function ValidarDatos(idformulario) {
         //Validar campo obligatorio
         resultado = clases.filter(p => p == "ob");
         if (resultado.length > 0) {
-            if (control.value.trim() == "") {
-                error = "Debe ingresar el campo " + control.name;
-                return error;
+            if (control.tagName.toUpperCase() == "INPUT" || control.tagName.toUpperCase() == "TEXTAREA") {
+                if (control.value.trim() == "") {
+                    error = "Debe ingresar el campo " + control.name;
+                    return error;
+                }
+            } else if (control.tagName.toUpperCase() == "SELECT") {
+                if (control.selectedIndex == 0) {
+                    error = "Debe ingresar el campo " + control.name;
+                    return error;
+                }
             }
         }
 
@@ -298,7 +313,7 @@ function ValidarDatos(idformulario) {
         //Solo letras
         resultado = clases.filter(p => p == "sl")
         if (resultado.length > 0) {
-            if (!/^[a-zA-Z]+$/.test(control.value)) {
+            if (!/^[a-zA-ZÀ-ÿ]+$/.test(control.value)) {
                 error = "El campo " + control.name + " solo debe tener letras minusculas o mayusculas";
                 return error;
             }
@@ -307,7 +322,7 @@ function ValidarDatos(idformulario) {
         //Solo letras con espacio
         resultado = clases.filter(p => p == "slcenb")
         if (resultado.length > 0) {
-            if (!/^[a-zA-Z ]+$/.test(control.value)) {
+            if (!/^[a-zA-ZÀ-ÿ,;. ]+$/.test(control.value)) {
                 error = "El campo " + control.name + " solo debe tener letras minusculas o mayusculas o espacios en blanco";
                 return error;
             }
@@ -326,7 +341,7 @@ function ValidarDatos(idformulario) {
         //Solo números y letras con espacios en blanco
         resultado = clases.filter(p => p == "snslcenb")
         if (resultado.length > 0) {
-            if (!/^[a-zA-Z0-9 ]+$/.test(control.value)) {
+            if (!/^[a-zA-Z0-9À-ÿ,;. ]+$/.test(control.value)) {
                 error = "El campo " + control.name + " solo debe tener números,letras o espacios en blanco";
                 return error;
             }
@@ -355,7 +370,7 @@ function validarKeyPress(idformulario) {
         if (resultado.length > 0) {
             elementosName[i].onkeypress = function (e) {
                 var cadena = e.target.value + String.fromCharCode(e.keyCode)
-                if (!/^[a-zA-Z]+$/.test(cadena)) {
+                if (!/^[a-zA-ZÀ-ÿ]+$/.test(cadena)) {
                     e.preventDefault();
                 }
             }
@@ -366,7 +381,7 @@ function validarKeyPress(idformulario) {
         if (resultado.length > 0) {
             elementosName[i].onkeypress = function (e) {
                 var cadena = e.target.value + String.fromCharCode(e.keyCode)
-                if (!/^[a-zA-Z ]+$/.test(cadena)) {
+                if (!/^[a-zA-ZÀ-ÿ,;. ]+$/.test(cadena)) {
                     e.preventDefault();
                 }
             }
@@ -388,7 +403,24 @@ function validarKeyPress(idformulario) {
         if (resultado.length > 0) {
             elementosName[i].onkeypress = function (e) {
                 var cadena = e.target.value + String.fromCharCode(e.keyCode)
-                if (!/^[a-zA-Z0-9 ]+$/.test(cadena)) {
+                if (!/^[a-zA-Z0-9À-ÿ,;. ]+$/.test(cadena)) {
+                    e.preventDefault();
+                }
+            }
+        }
+
+        //Máximo
+        resultado = clases.filter(p => p.includes("max-"));
+        if (resultado.length > 0) {
+            //max-100
+            var nombreClaseConMax = resultado[0]
+            //"100"
+            elementosName[i].onkeypress = function (e) {
+                var valorMaximo = nombreClaseConMax.replace("max-", "") * 1
+                var cadena = e.target.value + String.fromCharCode(e.keyCode)
+                //var longitudTexto = control.value.length;
+                var longitudTexto = cadena.length;
+                if (longitudTexto > valorMaximo) {
                     e.preventDefault();
                 }
             }

@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Cita</h1>
+
+<!-- Button trigger modal 
+<button onclick="Editar(0)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Nueva Cita
+</button>
+-->
+<!--Contenedor-->
+<fieldset class="mb-4 mt-4">
+    <legend>Historial de Citas</legend>
+    <form id="frmBusqueda" method="post" class="mb-3">
+        <div class="row">
+            <div class="col-md-6">
+                <label>Nombre de la mascota</label>
+                <input type="text" class="form-control" name="nombremascota" />
+            </div>
+
+            <div class="col-md-6">
+                <label>Tipo de mascota</label>
+                <select id="cboEspecieMascota" class="form-control ob" name="idespeciemascota">
+                    <option value="0">--Seleccione--</option>
+                    <option value="1">Perro</option>
+                    <option value="2">Gato</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label>Fecha desde</label>
+                <input type="date" class="form-control" name="fechadesde" value="" />
+            </div>
+            <div class="col-md-6">
+                <label>Fecha hasta</label>
+                <input type="date" class="form-control" name="fechahasta" value="" />
+            </div>
+        </div>
+    </form>
+
+    <button class="btn btn-primary" onclick="BuscarDatos()">Buscar</button>
+    <button class="btn btn-danger" onclick="LimpiarCita()">Limpiar</button>
+
+    @*<a class="btn btn-warning" asp-controller="Cita" asp-action="MostrarPDFenPagina" target="_blank">Mostrar</a>*@
+    @*<a class="btn btn-warning" asp-controller="Cita" asp-action="DescargarPDF" >Descargar PDF</a>*@
+</fieldset>
+
+<div id="divTabla">
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lbltitulo"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmGuardarCita" method="post" class="mb-3">
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCerrarModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="GuardarDatos()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/sweatalert.js"></script>
+<script src="~/js/bootstrap.js"></script>
+<script src="~/js/generic.js"></script>
+<script src="~/js/cita.js"></script>
